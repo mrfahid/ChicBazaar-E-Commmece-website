@@ -1,6 +1,6 @@
 // src/AuthContext.jsx
 import{ createContext, useContext, useEffect, useState } from 'react';
-import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
@@ -46,6 +46,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = async() => {
+    try{
+      await signOut(auth)
+    } catch(err) {
+      console.log("signout error", err)
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -55,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, loginWithGoogle, loginWithGithub, loginWithEmailAndPassword, signUpWithEmailAndPassword }}>
+    <AuthContext.Provider value={{ currentUser, loginWithGoogle, loginWithGithub, loginWithEmailAndPassword, signUpWithEmailAndPassword, logout }}>
       {children}
     </AuthContext.Provider>
   );
