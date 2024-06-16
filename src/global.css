@@ -27,13 +27,14 @@
  --z-fixed: 100;
 }
 body {
-  padding-top: 120px;
+ 
   
 }
 .brand{
   font-family: var(--second-font);
   cursor: pointer;
   color: var(--first-color);
+  text-decoration: none;
 }
 
 .card-title {
@@ -95,4 +96,12 @@ body {
 
 .slick-center .card {
   transform: scale(1.2);
+}
+
+.head {
+  font-family: var(--second-font);
+}
+
+.desc {
+  font-family: var(--body-font);
 }
