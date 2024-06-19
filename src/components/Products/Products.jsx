@@ -12,44 +12,35 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const ACCESS_KEY = "3eYgV5vXL5RQ3wjEJVTcGyhw7Z9rEkWtpIDREYnxgeA";
   const addProduct = (product) => {
     dispatch(addCart(product));
   };
 
   useEffect(() => {
     let componentMounted = true;
-
-    const getProducts = async (queries) => {
+  
+    const getProducts = async () => {
       setLoading(true);
       try {
-        const promises = queries.map(async (query) => {
-          const response = await axios.get(
-            `https://api.unsplash.com/photos/random?query=${query}&count=6&client_id=${ACCESS_KEY}`
-          );
-          return response.data;
-        });
-
-        const results = await Promise.all(promises);
-        const mergedData = results.flatMap((result) => result);
-        
+        const response = await fetch('https://free-ecommerce-api.vercel.app/api/products');
+        const result = await response.json();
         if (componentMounted) {
-          setData(mergedData);
+          setData(result);
           setLoading(false);
         }
       } catch (error) {
-        console.error("Failed to fetch products from Unsplash:", error);
+        console.error('Failed to fetch products from the API:', error);
         setLoading(false);
       }
     };
-
-    // Fetch products based on multiple categories
-    getProducts(["t-shirt", "mens-shirt", "womens-shirt", "electronics", "kitchen", "fashion", "food", "home", "home-kitchen", "beauty", "mobile"]);
-
+  
+    getProducts();
+  
     return () => {
       componentMounted = false;
     };
   }, []);
+  
 
   const Loading = () => (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -89,12 +80,12 @@ const Products = () => {
               className="space-y-3 p-4 shadow-md rounded-md w-full h-full max-w-[250px] bg-white dark:bg-gray-800"
             >
               <img
-                src={product.urls.regular}
-                alt={product.alt_description}
+                src={product.img}
+                alt={product.name}
                 className="h-[220px] w-full object-cover rounded-md"
               />
               <div className="truncate">
-                <h3 className="font-semibold truncate dark:text-white">{product.alt_description}</h3>
+                <h3 className="font-semibold truncate dark:text-white">{product.name}</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 truncate">Category: {product.category}</p>
                 <div className="flex items-center gap-1">
                   <FaStar className="text-yellow-400" />
@@ -132,5 +123,3 @@ const Products = () => {
 };
 
 export default Products;
-
-

@@ -9,6 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "proxy": "https://free-ecommerce-api.vercel.app",
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
     "@reduxjs/toolkit": "^2.2.5",
