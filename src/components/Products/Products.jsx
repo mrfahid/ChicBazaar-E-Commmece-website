@@ -19,6 +19,7 @@ const Products = () => {
   useEffect(() => {
     let componentMounted = true;
   
+
     const getProducts = async () => {
       setLoading(true);
       try {
